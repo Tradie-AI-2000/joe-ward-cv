@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe Ward | Interactive CV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #343A40;
+        }
+        .text-primary {
+            color: #4A90E2;
+        }
+        .bg-primary-light {
+            background-color: #E6F0FC;
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #4A90E2;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+        .achievement-card {
+            transition: background-color 0.3s ease;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .career-item {
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .career-item.active {
+            background-color: #E9ECEF;
+        }
+        .career-details {
+            display: none;
+            overflow: hidden;
+        }
+        .career-details.active {
+            display: block;
+        }
+        .contact-input {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .contact-input:focus {
+            border-color: #4A90E2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .modal img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800">
+                <span class="text-primary">Joe Ward</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="nav-link font-medium">Profile</a>
+                <a href="#skills" class="nav-link font-medium">Skills</a>
+                <a href="#experience" class="nav-link font-medium">Experience</a>
+                <a href="#projects" class="nav-link font-medium">Projects</a>
+                <a href="#contact" class="nav-link font-medium">Contact</a>
+            </div>
+            <a href="#contact" class="hidden md:block bg-primary-light text-primary font-bold py-2 px-4 rounded-lg hover:bg-primary-light/80 transition-colors">Let's Connect</a>
+        </nav>
+    </header>
+
+    <main>
+        
+        <section id="about" class="relative py-20 md:py-32 overflow-hidden fade-in">
+            <div class="container mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center justify-center text-center lg:text-left">
+                <div class="w-full lg:w-1/2 mb-10 lg:mb-0 lg:pr-16">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 leading-tight">
+                        <span class="block text-primary">Joe Ward</span>
+                        <span class="block">Business Development Leader</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto lg:mx-0">
+                        An experienced professional with a unique blend of expertise in business development, sales, and technology, passionately seeking to combine a love for sport and innovation at Sportway.
+                    </p>
+                    <div class="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="mailto:joe@tradieai.co.nz" class="bg-primary-light text-primary font-bold py-3 px-6 rounded-lg hover:bg-primary-light/80 transition-colors">
+                            Email Me
+                        </a>
+                        <a href="#contact" class="bg-white text-gray-800 font-bold py-3 px-6 rounded-lg border border-gray-300 hover:bg-gray-100 transition-colors">
+                            Get in Touch
+                        </a>
+                    </div>
+                </div>
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-end">
+                    <div class="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden shadow-xl border-4 border-white transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://static.wixstatic.com/media/7b20bf_d3848bcfab464ba89477260bf5186b39~mv2.png" alt="Profile Image of Joe Ward" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="value-prop" class="py-20 bg-primary-light fade-in">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">My Value Proposition: A Unique Blend for Sportway</h2>
+                <p class="text-lg text-gray-700 max-w-4xl mx-auto">
+                    My background is not just a list of roles, but a powerful combination of experiences that uniquely positions me to drive growth for Sportway. My years as a <strong>professional rugby player and coach</strong> give me an innate understanding of the grassroots sports community—the language, the challenges, and the passion that fuels it. This is the authentic connection needed to build trust with Sportway’s key partners.
+                    <br><br>
+                    Coupled with my <strong>entrepreneurial experience</strong>, I have a proven track record of identifying market needs and building a business from the ground up, as demonstrated by my work with Next Level Sport & Health and TradieAI. This proactive, hands-on approach is essential for a BDM role focused on creating new opportunities.
+                    <br><br>
+                    Finally, my expertise in <strong>AI and technology</strong> allows me to bridge the gap between Sportway's cutting-edge product and its non-technical audience. I can explain the value of AI automation and digital tools in a clear, compelling way, helping clubs and federations understand how to unlock new commercial opportunities and enhance the game. My work on the North Harbour Rugby Performance Hub is a direct demonstration of my ability to deliver on this promise.
+                </p>
+            </div>
+        </section>
+
+        
+        <section id="skills" class="py-20 bg-white fade-in">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Core Competencies & Skills</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-10">
+                    My diverse background has equipped me with a unique combination of skills, from strategic leadership to hands-on tech. **Click on a skill** to learn more about how I apply it.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-gray-50 rounded-lg p-6 shadow-md border border-gray-200 transition-transform duration-300 hover:scale-105 skill-card">
+                        <div class="flex items-center justify-center mb-4">
+                            <span class="text-4xl text-primary">📊</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Business Development</h3>
+                        <div class="text-left hidden mt-4 text-gray-600 skill-detail">
+                            <p>My experience is rooted in identifying and executing new business opportunities, particularly within the sports and healthcare sectors. I excel at nurturing key stakeholder relationships and driving commercial outcomes.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-6 shadow-md border border-gray-200 transition-transform duration-300 hover:scale-105 skill-card">
+                        <div class="flex items-center justify-center mb-4">
+                            <span class="text-4xl text-primary">🤝</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Relationship Management</h3>
+                        <div class="text-left hidden mt-4 text-gray-600 skill-detail">
+                            <p>As a natural communicator, I build trust and rapport quickly. This skill is critical for nurturing long-term partnerships with clubs, associations, and national sporting bodies to ensure mutual growth.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-6 shadow-md border border-gray-200 transition-transform duration-300 hover:scale-105 skill-card">
+                        <div class="flex items-center justify-center mb-4">
+                            <span class="text-4xl text-primary">💡</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Tech & Innovation</h3>
+                        <div class="text-left hidden mt-4 text-gray-600 skill-detail">
+                            <p>I am passionate about AI and automation and have hands-on experience building apps and websites. I am adept at explaining technical concepts to non-technical audiences, which is vital for driving the adoption of innovative tools.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-6 shadow-md border border-gray-200 transition-transform duration-300 hover:scale-105 skill-card">
+                        <div class="flex items-center justify-center mb-4">
+                            <span class="text-4xl text-primary">🤖</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">AI Agent Building</h3>
+                        <div class="text-left hidden mt-4 text-gray-600 skill-detail">
+                            <p>I possess the technical skill to build bespoke AI agents. My experience includes using the Google ADK and deploying agents to environments like Vertex AI, allowing me to create powerful, customized solutions that automate complex tasks and provide intelligent insights.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-6 shadow-md border border-gray-200 transition-transform duration-300 hover:scale-105 skill-card">
+                        <div class="flex items-center justify-center mb-4">
+                            <span class="text-4xl text-primary">📱</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">App Building</h3>
+                        <div class="text-left hidden mt-4 text-gray-600 skill-detail">
+                            <p>I have experience with app development using no-code platforms like FlutterFlow. This skill allows me to rapidly prototype and build functional mobile and web applications without extensive coding, accelerating the development cycle from concept to a working product.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-6 shadow-md border border-gray-200 transition-transform duration-300 hover:scale-105 skill-card">
+                        <div class="flex items-center justify-center mb-4">
+                            <span class="text-4xl text-primary">🎯</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Problem-Solving</h3>
+                        <div class="text-left hidden mt-4 text-gray-600 skill-detail">
+                            <p>My entrepreneurial background has honed my ability to identify pain points and implement solutions that unlock growth and streamline operations. I am a creative problem-solver with a knack for spotting new opportunities.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="achievements" class="py-20 fade-in">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">My Professional Achievements</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-10">
+                    My career is built on a foundation of tangible results, from business growth to team leadership. These figures highlight my impact across diverse roles.
+                </p>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    <div class="bg-white rounded-lg p-6 shadow-md border border-gray-200 achievement-card">
+                        <div class="text-4xl font-bold text-primary mb-2 countup" data-target="12">0</div>
+                        <p class="text-sm text-gray-600">Years of Business Development Experience</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-6 shadow-md border border-gray-200 achievement-card">
+                        <div class="text-4xl font-bold text-primary mb-2 countup" data-target="12">0</div>
+                        <p class="text-sm text-gray-600">Years in Sales & Management Roles</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-6 shadow-md border border-gray-200 achievement-card">
+                        <div class="text-4xl font-bold text-primary mb-2 countup" data-target="3">0</div>
+                        <p class="text-sm text-gray-600">Businesses Founded and Grew</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-6 shadow-md border border-gray-200 achievement-card">
+                        <div class="text-4xl font-bold text-primary mb-2 countup" data-target="14">0</div>
+                        <p class="text-sm text-gray-600">Years as a Professional Rugby Player</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-6 shadow-md border border-gray-200 achievement-card">
+                        <div class="text-4xl font-bold text-primary mb-2 countup" data-target="3">0</div>
+                        <p class="text-sm text-gray-600">Years in AI & Automation</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="experience" class="py-20 bg-white fade-in">
+            <div class="container mx-auto px-4 sm:px-6">
+                <h2 class="text-3xl font-bold text-gray-800 text-center mb-4">My Career Progression</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto text-center mb-10">
+                    A non-linear journey of an entrepreneur, athlete, and business leader, showing how each role has built on the last to create a unique and adaptable skill set.
+                </p>
+                <div class="max-w-4xl mx-auto space-y-4">
+                    <div class="border rounded-lg bg-gray-50 career-item" data-target="tradieai">
+                        <button class="w-full text-left p-6 font-bold text-gray-800 flex justify-between items-center">
+                            TradieAI - AI Consultancy <span class="text-sm font-normal text-gray-500">2025 - Present</span>
+                            <span class="text-2xl ml-4 transform transition-transform duration-300 toggle-icon">▶</span>
+                        </button>
+                        <div class="career-details p-6 text-gray-600 border-t border-gray-200">
+                            <h4 class="font-semibold text-primary mb-2">Role: Owner/Director</h4>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>Founded and directed an AI consultancy focused on helping SMEs in the trades and services sector streamline operations.</li>
+                                <li>Built and deployed AI automations, applications, and websites using Google Cloud (Vertex AI platform), Make.com, and AppSheet.</li>
+                                <li>Developed and applied foundational knowledge of AI tools, SaaS products, and automation to solve business pain points and unlock growth.</li>
+                                <li>Engaged in active business development, sales, and networking to build a client base and establish market presence.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="border rounded-lg bg-gray-50 career-item" data-target="angryweeds">
+                        <button class="w-full text-left p-6 font-bold text-gray-800 flex justify-between items-center">
+                            Angry Weeds Landscaping & Construction <span class="text-sm font-normal text-gray-500">2022 - 2025</span>
+                            <span class="text-2xl ml-4 transform transition-transform duration-300 toggle-icon">▶</span>
+                        </button>
+                        <div class="career-details p-6 text-gray-600 border-t border-gray-200">
+                            <h4 class="font-semibold text-primary mb-2">Role: Owner/Director</h4>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>Managed all aspects of business operations, including customer engagement, project management, and team leadership.</li>
+                                <li>Successfully drove sales growth and optimized operational efficiency.</li>
+                                <li>Cultivated a highly adaptable and competitive culture, thriving in both team and autonomous roles.</li>
+                                <li>Leveraged IT and connected systems for business development and digital marketing.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="border rounded-lg bg-gray-50 career-item" data-target="nextlevel">
+                        <button class="w-full text-left p-6 font-bold text-gray-800 flex justify-between items-center">
+                            Next Level Sport & Health (Sold) <span class="text-sm font-normal text-gray-500">2019 - 2022</span>
+                            <span class="text-2xl ml-4 transform transition-transform duration-300 toggle-icon">▶</span>
+                        </button>
+                        <div class="career-details p-6 text-gray-600 border-t border-gray-200">
+                            <h4 class="font-semibold text-primary mb-2">Role: Owner/Director</h4>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>Founded and managed a business in the sports and healthcare sectors, demonstrating entrepreneurial drive and a passion for sport.</li>
+                                <li>Focused on strategic planning and business management to scale and successfully sell the company.</li>
+                                <li>Applied skills in sales, customer engagement, and team leadership to build a robust and successful operation.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="border rounded-lg bg-gray-50 career-item" data-target="ebos">
+                        <button class="w-full text-left p-6 font-bold text-gray-800 flex justify-between items-center">
+                            EBOS Group Ltd Endeavour Consumer Health <span class="text-sm font-normal text-gray-500">2014 - 2019</span>
+                            <span class="text-2xl ml-4 transform transition-transform duration-300 toggle-icon">▶</span>
+                        </button>
+                        <div class="career-details p-6 text-gray-600 border-t border-gray-200">
+                            <h4 class="font-semibold text-primary mb-2">Role: NZ/AU Business Manager</h4>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>Oversaw business operations and sales management across New Zealand and Australia.</li>
+                                <li>Developed and nurtured key relationships with major clients and stakeholders.</li>
+                                <li>Contributed to significant sales growth and market expansion.</li>
+                                <li>Honed communication and networking skills in a corporate environment.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="border rounded-lg bg-gray-50 career-item" data-target="rugby">
+                        <button class="w-full text-left p-6 font-bold text-gray-800 flex justify-between items-center">
+                            Professional Rugby Player & Coach <span class="text-sm font-normal text-gray-500">1999 - 2015</span>
+                            <span class="text-2xl ml-4 transform transition-transform duration-300 toggle-icon">▶</span>
+                        </button>
+                        <div class="career-details p-6 text-gray-600 border-t border-gray-200">
+                            <h4 class="font-semibold text-primary mb-2">Player & Coach, Various Clubs</h4>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>Played for notable clubs including London Wasps and Sale Sharks in the UK Premiership, as well as the Hurricanes Super Rugby team.</li>
+                                <li>Captain of the New Zealand U19 team that won the Junior World Championship in 1999.</li>
+                                <li>Honed leadership, teamwork, and competitive drive in high-pressure environments.</li>
+                                <li>Gained coaching experience at a high level with teams like Toyota Shokki Top 14-Japan and North Harbour Rugby B.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="projects" class="py-20 fade-in">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">My AI & Tech Projects</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-10">
+                    My passion for AI and automation has led to several projects where I've applied technology to solve real-world business problems, aligning with the innovative spirit of Sportway.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="project-card bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">TradieAI - AI Consultancy</h3>
+                            <p class="text-sm text-gray-500 mb-4">Technology: Make.com, N8N, Zapier, Google Cloud (VertexAI), AppSheet/AppsScript</p>
+                            <p class="text-gray-600 mb-4">
+                                I founded this consultancy to assist small to medium-sized businesses in the trades and services sector. The core focus was on building custom AI automations and applications to streamline workflows and alleviate time-consuming tasks. This demonstrates my ability to identify market needs, build a product from the ground up, and drive adoption.
+                            </p>
+                            <img src="https://static.wixstatic.com/media/7b20bf_5132ad6d359e467c88404bbb59681508~mv2.png" alt="TradieAI website screenshot" class="w-full h-auto rounded-lg my-4">
+                            <a href="https://www.tradieai.co.nz" target="_blank" rel="noopener noreferrer" class="inline-block text-primary font-bold mt-2 hover:underline">Visit Website →</a>
+                        </div>
+                    </div>
+                    <div class="project-card bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">North Harbour Rugby Performance Hub</h3>
+                            <p class="text-sm text-gray-500 mb-4">Technology: React, Node.js, Express.js, PostgreSQL, Google Gemini, OpenAI, Anthropic, WebSockets</p>
+                            <p class="text-gray-600 mb-4">
+                                The North Harbour Rugby Performance Hub is a full-stack web application designed to manage, analyze, and optimize rugby player performance. It features AI-powered insights, a 'MoneyBall' player valuation system, performance analytics, and a robust role-based access control system for coaching and medical staff.
+                            </p>
+                            <img src="https://static.wixstatic.com/media/7b20bf_6311bb07696b48759ad871ae968359e7~mv2.png" alt="North Harbour Rugby Performance Hub Preview" class="w-full h-auto rounded-lg my-4">
+                            <a href="https://north-harbour-performance-tradiesai.replit.app/" target="_blank" rel="noopener noreferrer" class="inline-block text-primary font-bold mt-2 hover:underline">Visit Project →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="education" class="py-20 bg-white fade-in">
+            <div class="container mx-auto px-4 sm:px-6">
+                <h2 class="text-3xl font-bold text-gray-800 text-center mb-4">Education & Certifications</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto text-center mb-10">
+                    A foundation of business knowledge complemented by an eagerness to stay at the forefront of new technologies and trends.
+                </p>
+                <div class="max-w-xl mx-auto space-y-4">
+                    <div class="bg-gray-50 rounded-lg p-6 shadow-md border border-gray-200">
+                        <h3 class="text-xl font-bold text-primary mb-1">Bachelor of Business Studies</h3>
+                        <p class="text-gray-800">Massey University</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-6 shadow-md border border-gray-200">
+                        <h3 class="text-xl font-bold text-primary mb-1">Google Generative AI Leader</h3>
+                        <p class="text-gray-800">Google</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-6 shadow-md border border-gray-200">
+                        <h3 class="text-xl font-bold text-primary mb-1">Diploma in Sports Performance (Merit)</h3>
+                        <p class="text-gray-800">Otago Polytechnic</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-6 shadow-md border border-gray-200">
+                        <h3 class="text-xl font-bold text-primary mb-1">Post Grad Dip. Terrorism Studies</h3>
+                        <p class="text-gray-800">St Andrews University</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="contact" class="py-20 fade-in">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Let's Shape the Future of Grassroots Sport.</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-10">
+                    I'm excited to discuss how my unique blend of experience can drive growth and create amazing outcomes for the Sportway community. Please get in touch.
+                </p>
+                <div class="bg-white rounded-xl shadow-md p-8 max-w-2xl mx-auto border border-gray-200">
+                    <form class="space-y-4">
+                        <input type="text" placeholder="Your Name" class="contact-input w-full p-3 rounded-lg border border-gray-300 focus:outline-none">
+                        <input type="email" placeholder="Your Email" class="contact-input w-full p-3 rounded-lg border border-gray-300 focus:outline-none">
+                        <textarea placeholder="Your Message" rows="4" class="contact-input w-full p-3 rounded-lg border border-gray-300 focus:outline-none"></textarea>
+                        <button type="submit" class="w-full bg-primary-light text-primary font-bold py-3 px-6 rounded-lg hover:bg-primary-light/80 transition-colors">
+                            Send Message
+                        </button>
+                    </form>
+                    <div class="mt-8 text-gray-600">
+                        <p class="font-bold">Contact Details:</p>
+                        <p>Email: <a href="mailto:joe@tradieai.co.nz" class="text-primary hover:underline">joe@tradieai.co.nz</a></p>
+                        <p>Phone: 021 993 285</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 text-center">
+        <p class="text-sm">&copy; 2025 Joe Ward. All rights reserved.</p>
+    </footer>
+
+    <div id="project-modal" class="modal">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <h3 id="modal-title" class="text-white text-2xl font-bold text-center mb-4"></h3>
+            <img id="modal-image" src="" alt="Project Preview">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in').forEach(section => observer.observe(section));
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            const skills = document.querySelectorAll('.skill-card');
+            skills.forEach(skill => {
+                skill.addEventListener('click', () => {
+                    const detail = skill.querySelector('.skill-detail');
+                    detail.classList.toggle('hidden');
+                });
+            });
+            const careerItems = document.querySelectorAll('.career-item');
+            careerItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const details = item.querySelector('.career-details');
+                    const icon = item.querySelector('.toggle-icon');
+                    const isActive = details.classList.contains('active');
+                    if (isActive) {
+                        details.classList.remove('active');
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        document.querySelectorAll('.career-details.active').forEach(d => d.classList.remove('active'));
+                        document.querySelectorAll('.toggle-icon').forEach(i => i.style.transform = 'rotate(0deg)');
+                        details.classList.add('active');
+                        icon.style.transform = 'rotate(90deg)';
+                    }
+                });
+            });
+            const counters = document.querySelectorAll('.countup');
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.dataset.target);
+                        let count = 0;
+                        const updateCount = () => {
+                            if (count < target) {
+                                count += Math.ceil(target / 100);
+                                if (count > target) count = target;
+                                entry.target.textContent = count;
+                                requestAnimationFrame(updateCount);
+                            }
+                        };
+                        updateCount();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            counters.forEach(counter => counterObserver.observe(counter));
+        });
+
+        function openModal(imageSrc, title, type) {
+            const modal = document.getElementById('project-modal');
+            const modalImage = document.getElementById('modal-image');
+            const modalTitle = document.getElementById('modal-title');
+            
+            modalImage.src = imageSrc;
+            modalTitle.textContent = title;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('project-modal');
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('project-modal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
